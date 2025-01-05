@@ -1,0 +1,102 @@
+/*
+ * BootLoader.c
+ *
+ *  Created on: Dec 1, 2024
+ *      Author: s
+ */
+#include "BootLoader.h"
+
+static uint32_t BL_CRC_Verify(uint8_t *Data, uint32_t DataLen, uint32_t HostCRC);
+static void BL_send_NACK(void);
+static void BL_send_ACK(uint8_t DataLen);
+static void BL_get_Version(uint8_t * HostByuffer);
+
+static uint8_t HostByuffer[MAX_HOST_SIZE];
+
+
+BL_status BL_FetchHostCommand(void) {
+	BL_status retVal = BL_NACK;
+	HAL_StatusTypeDef Hal_Status = HAL_ERROR;
+	uint8_t DataLen = 0;
+	memset(HostByuffer, 0, MAX_HOST_SIZE);
+	Hal_Status = HAL_UART_Receive(&huart2, HostByuffer, 1, HAL_MAX_DELAY);
+	if(Hal_Status != HAL_OK) {
+		retVal = BL_NACK;
+	}
+	else {
+		DataLen = HostByuffer[0];
+		Hal_Status = HAL_UART_Receive(&huart2, &HostByuffer[1], DataLen, HAL_MAX_DELAY);
+		if(Hal_Status != HAL_OK) {
+			retVal = BL_NACK;
+		}
+		else {
+			switch(HostByuffer[1]) {
+				case CBL_GET_VER_CMD: BL_sendMassage("get version of Boot loader"); break;
+				case CBL_GET_HELP_CMD: BL_sendMassage("get help of Boot loader"); break;
+				case CBL_GET_CID_CMD: BL_sendMassage("get ID of Boot loader"); break;
+				case CBL_GO_TO_ADDR_CMD: BL_sendMassage("Jump to Address"); break;
+				case CBL_FLASH_ERASE_CMD: BL_sendMassage("Erase Flash Memory"); break;
+				case CBL_MEM_WRITE_CMD: BL_sendMassage("Write to Flash Memory"); break;
+				default: retVal = BL_NACK; break;
+			}
+		}
+	}
+	return retVal;
+}
+
+void BL_sendMassage(char *format, ...) {
+
+	char Massage[100] = {0};
+	va_list args;
+	va_start(args, format);
+	vsprintf(Massage, format, args);
+	HAL_UART_Transmit(&huart2, (uint8_t*)Massage, sizeof(Massage), HAL_MAX_DELAY);
+	va_end(args);
+}
+
+static void BL_get_Version(uint8_t * HostByuffer) {
+	uint8_t versions[4] = {CBL_VENDOOR_ID, CBL_SW_MAJOR_VERSION, CBL_SW_MINOR_VERSION, CBL_SW_PATCH_VERSION};
+	uint16_t HostPacketLen = 0;
+	uint32_t CRC_val = 0;
+	HostPacketLen = HostByuffer[0]+1;
+	CRC_val = *(uint32_t*)(HostByuffer + HostPacketLen - 4);
+	if(CRC_val == BL_CRC_Verify(((uint8_t*)HostByuffer[0]),HostPacketLen-4,CRC_val)) {
+		BL_send_ACK(4);
+	}
+	else {
+		BL_send_NACK();
+	}
+
+}
+
+
+static uint32_t BL_CRC_Verify(uint8_t *Data, uint32_t DataLen, uint32_t HostCRC) {
+	uint8_t crc_status = CRC_VERIFY_FAILED;
+	uint32_t MCU_CRC = 0;
+	uint32_t databuffer = 0;
+	for(uint8_t count = 0; count < DataLen; count++) {
+		databuffer = (uint32_t)Data[count];
+		MCU_CRC = HAL_CRC_Accumulate(&hcrc,&databuffer, 1);
+	}
+	if(HostCRC == MCU_CRC) {
+		crc_status = CRC_VERIFY_PASS;
+	}
+	else {
+		crc_status = CRC_VERIFY_FAILED;
+	}
+	return crc_status;
+}
+
+
+static void BL_send_NACK(void) {
+	uint8_t ACK_Val = SEND_NACK;
+	HAL_UART_Transmit(&huart2, &ACK_Val, sizeof(ACK_Val), HAL_MAX_DELAY);
+
+}
+static void BL_send_ACK(uint8_t DataLen) {
+	uint8_t ACK_Val[2] = {0};
+	ACK_Val[0] = SEND_ACK;
+	ACK_Val[1] = DataLen;
+	HAL_UART_Transmit(&huart2, (uint8_t*)ACK_Val, 2, HAL_MAX_DELAY);
+
+}

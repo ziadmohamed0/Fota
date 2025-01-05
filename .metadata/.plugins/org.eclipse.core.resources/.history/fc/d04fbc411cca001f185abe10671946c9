@@ -1,0 +1,42 @@
+/*
+ * BootLoader.c
+ *
+ *  Created on: Dec 1, 2024
+ *      Author: s
+ */
+#include "BootLoader.h"
+
+static uint8_t HostByuffer[MAX_HOST_SIZE];
+
+
+BL_status BL_FetchHostCommand(void) {
+	BL_status retVal = BL_NACK;
+	HAL_StatusTypeDef Hal_Status = HAL_ERROR;
+	uint8_t DataLen = 0;
+	memset(HostByuffer, 0, MAX_HOST_SIZE);
+	Hal_Status = HAL_UART_Transmit(&huart2, HostByuffer, 1, HAL_MAX_DELAY);
+	if(Hal_Status != HAL_OK) {
+		retVal = BL_NACK;
+	}
+	else {
+		DataLen = HostByuffer[0];
+		Hal_Status = HAL_UART_Transmit(&huart2, &HostByuffer[1], DataLen, HAL_MAX_DELAY);
+		if(Hal_Status != HAL_OK) {
+			retVal = BL_NACK;
+		}
+		else {
+
+		}
+	}
+
+}
+
+void BL_sendMassage(char *format, ...) {
+
+	char Massage[100] = {0};
+	va_list args;
+	va_start(args, format);
+	vsprintf(Massage, format, args);
+	HAL_UART_Transmit(&huart2, (uint8_t*)Massage, sizeof(Massage), HAL_MAX_DELAY);
+	va_end(args);
+}

@@ -1,0 +1,19 @@
+/*
+ * BootLoader.h
+ *
+ *  Created on: Dec 1, 2024
+ *      Author: s
+ */
+
+#ifndef INC_BOOTLOADER_H_
+#define INC_BOOTLOADER_H_
+
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+#include "usart.h"
+
+void BL_sendMassage(char *format, ...);
+
+
+#endif /* INC_BOOTLOADER_H_ */

@@ -1,0 +1,18 @@
+/*
+ * BootLoader.c
+ *
+ *  Created on: Dec 1, 2024
+ *      Author: s
+ */
+#include "BootLoader.h"
+
+
+void BL_sendMassage(char *format,...) {
+
+	char Massage[100] = {0};
+	va_list args;
+	va_start(args, Massage);
+	vsprintf(Massage, format, args);
+	HAL_UART_Transmit(&huart2, (uint8_t*)Massage, sizeof(Massage), HAL_MAX_DELAY);
+	va_end(args);
+}

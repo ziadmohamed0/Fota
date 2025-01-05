@@ -1,0 +1,33 @@
+21:30:03 **** Incremental Build of configuration Debug for project Fota_BootLoader ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/BootLoader.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/BootLoader.d" -MT"Core/Src/BootLoader.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/BootLoader.o"
+../Core/Src/BootLoader.c: In function 'BL_Write_Data':
+../Core/Src/BootLoader.c:171:18: warning: variable 'CRC_valu' set but not used [-Wunused-but-set-variable]
+  171 |         uint32_t CRC_valu=0;
+      |                  ^~~~~~~~
+../Core/Src/BootLoader.c: In function 'Perform_Flash_Erase':
+../Core/Src/BootLoader.c:254:27: warning: variable 'Hal_status' set but not used [-Wunused-but-set-variable]
+  254 |         HAL_StatusTypeDef Hal_status  = HAL_ERROR;
+      |                           ^~~~~~~~~~
+../Core/Src/BootLoader.c: In function 'FlashMemory_Paylaod_Write':
+../Core/Src/BootLoader.c:302:17: warning: unused variable 'UpdataAdress' [-Wunused-variable]
+  302 |         uint8_t UpdataAdress=0;
+      |                 ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "Fota_BootLoader.elf" @"objects.list"   -mcpu=cortex-m3 -T"E:\Tracks\Embedded\iot\Fota_BootLoader\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Fota_BootLoader.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Fota_BootLoader.elf
+ 
+arm-none-eabi-size  Fota_BootLoader.elf 
+arm-none-eabi-objdump -h -S Fota_BootLoader.elf  > "Fota_BootLoader.list"
+   text	   data	    bss	    dec	    hex	filename
+   5572	     12	   1724	   7308	   1c8c	Fota_BootLoader.elf
+Finished building: default.size.stdout
+ 
+Finished building: Fota_BootLoader.list
+ 
+21:30:11 **** Incremental Build of configuration Debug for project Fota_BootLoader ****
+make -j4 all 
+arm-none-eabi-size  Fota_BootLoader.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5572	     12	   1724	   7308	   1c8c	Fota_BootLoader.elf
+Finished building: default.size.stdout
+ 
