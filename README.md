@@ -1,56 +1,70 @@
-# FOTA (Firmware Over-The-Air) Project
+Here's a README file for your repository in English:
 
-This repository contains the implementation of a FOTA system developed during a course on Firmware Over-The-Air (FOTA) updates. The project involves creating a bootloader and drivers for FOTA functionality on the STM32F103C8T6 microcontroller. Additionally, MQTT protocol integration was explored using Node-RED.
+---
 
-## Features
-- **Bootloader Development**: A custom bootloader was designed to enable firmware updates for the STM32F103C8T6 microcontroller.
-- **Driver Development**: Drivers were implemented to support FOTA functionality.
-- **MQTT Integration**: Utilized MQTT protocol for communication and update management.
-- **Node-RED**: Leveraged Node-RED for MQTT testing and workflow automation.
+# Embedded IoT Projects
 
-## Hardware
-- **Microcontroller**: STM32F103C8T6
-- **Microcontroller**: ESP8266
-  
-## Tools and Technologies
-- **IDE**: STM32CubeIDE
-- **Programming Language**: C
-- **Protocol**: MQTT
-- **Workflow Automation**: Node-RED
+This repository contains a collection of projects related to embedded systems and the Internet of Things (IoT), developed during training courses and personal projects.
+
+## Projects
+
+### 1. Firmware Over-the-Air (FOTA) Update
+
+This project involves developing a system for over-the-air (FOTA) firmware updates using the STM32F103C8T6 microcontroller. A custom bootloader is developed to enable firmware updates, and drivers are created to support the FOTA functionality.
+
+**Features:**
+- Development of a custom bootloader for the STM32F103C8T6 microcontroller.
+- Creation of drivers to support the FOTA functionality.
+- Use of the MQTT protocol to manage updates.
+- Testing of the MQTT protocol and flow automation using Node-RED.
+
+**Tools and Technologies:**
+- Programming Language: C
+- Development Environment: STM32CubeIDE
+- Protocol: MQTT
+- Flow Automation: Node-RED
+
+### 2. MQTT Protocol with ESP8266
+
+This project demonstrates how to use the MQTT protocol with the ESP8266 module to communicate with an MQTT server. Node-RED is used to test the connection and manage the messages.
+
+**Features:**
+- Configuring the ESP8266 module to connect to a Wi-Fi network.
+- Connecting to an MQTT server and sending/receiving messages.
+- Using Node-RED to test and manage MQTT flows.
+
+**Tools and Technologies:**
+- Programming Language: C
+- Development Environment: Arduino IDE
+- Protocol: MQTT
+- Flow Automation: Node-RED
 
 ## Getting Started
 
 ### Prerequisites
-- STM32F103C8T6 development board
-- Node-RED installed on your system
-- MQTT broker (e.g., Mosquitto)
 
-### Steps to Run the Project
+- STM32F103C8T6 development board for the first project.
+- ESP8266 module for the second project.
+- Node-RED installed on your system.
+- MQTT server (e.g., Mosquitto).
+
+### Running the Projects
+
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ziadmohamed0/Fota.git
+   git clone https://github.com/ziadmohamed0/Embedded_IOT.git
    ```
-2. Open the project in STM32CubeIDE.
-3. Compile and flash the bootloader onto the STM32F103C8T6 microcontroller.
-4. Set up an MQTT broker and configure Node-RED for communication.
-5. Test the FOTA system by publishing firmware updates via MQTT.
 
-## Lessons Learned
-- Bootloader design and implementation for STM32 microcontrollers.
-- Integration of MQTT protocol for IoT applications.
-- Workflow automation using Node-RED.
+2. Follow the instructions in each project folder for setup and execution.
 
-## Repository Structure
-- **/Bootloader**: Contains the bootloader implementation.
-- **/Drivers**: Includes the drivers required for FOTA functionality.
-- **/MQTT**: Scripts and configurations for MQTT communication.
+## Contributing
 
-## Author
-[Ziad Mohamed](https://github.com/ziadmohamed0)
+Contributions to this repository are welcome. Please open an "Issue" to discuss any proposed changes or submit a "Pull Request" directly.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ---
-Feel free to explore the repository and use the provided resources to understand the implementation of FOTA systems for embedded applications!
 
+Let me know if you'd like any changes!
